@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { 
-  Camera, 
   Triangle, 
-  Square, 
   Activity, 
   Music,
   Terminal, 
-  AlertCircle,
   ChevronRight,
   BarChart,
   Globe
 } from 'lucide-react';
 
 // Technical readout component
-const TechnicalReadout = ({ label, value, trend = 0 }) => (
+const TechnicalReadout = ({ label, value, trend = 0 }: { label: string; value: string; trend?: number }) => (
   <div className="flex items-center space-x-2 text-xs font-mono border-l-2 border-cyan-500/20 pl-2 py-1">
     <Activity className="w-3 h-3 text-cyan-500/50" />
     <span className="opacity-70">{label}</span>
@@ -27,7 +24,7 @@ const TechnicalReadout = ({ label, value, trend = 0 }) => (
 );
 
 // Audio monitoring panel
-const AudioMonitorPanel = ({ index }) => (
+const AudioMonitorPanel = ({ index }: { index: number }) => (
   <div className="border border-cyan-500/20 aspect-[5/3] relative overflow-hidden bg-black/30 backdrop-blur-sm">
     <div className="absolute inset-0">
       <svg viewBox="0 0 200 100" className="w-full h-full">
@@ -180,7 +177,7 @@ const LabelContent = () => (
 );
 
 const THRTSHudInterface = () => {
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const [systemTime, setSystemTime] = useState(new Date());
   const [systemStatus, setSystemStatus] = useState('OPERATIONAL');
   const [glitchEffect, setGlitchEffect] = useState(false);
@@ -206,7 +203,7 @@ const THRTSHudInterface = () => {
   }, []);
 
   // Section icons mapping
-  const sectionIcons = {
+  const sectionIcons: Record<string, any> = {
     'STUDIO': Activity,
     'APP': Triangle,
     'LABEL': Music

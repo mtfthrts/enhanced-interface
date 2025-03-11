@@ -181,6 +181,7 @@ const THRTSHudInterface = () => {
   const [systemTime, setSystemTime] = useState(new Date());
   const [systemStatus, setSystemStatus] = useState('OPERATIONAL');
   const [glitchEffect, setGlitchEffect] = useState(false);
+  const [activeVideo, setActiveVideo] = useState<string>('/background.mp4');
 
   // Simulate system time and occasional glitches
   useEffect(() => {
@@ -227,13 +228,14 @@ const THRTSHudInterface = () => {
     <div className="min-h-screen w-full relative overflow-hidden">
       {/* Video Background */}
       <video 
+        key={activeVideo}
         className="fixed inset-0 object-cover w-full h-full" 
         autoPlay 
         loop 
         muted 
         playsInline
       >
-        <source src="/background.mp4" type="video/mp4" />
+        <source src={activeVideo} type="video/mp4" />
       </video>
 
       {/* Interface Overlay */}
@@ -309,7 +311,17 @@ const THRTSHudInterface = () => {
                     ${activeSection === section ? 'col-span-3' : 'col-span-1'}
                     cursor-pointer hover:bg-cyan-500/5
                   `}
-                  onClick={() => setActiveSection(activeSection === section ? null : section)}
+                  onClick={() => {
+                    if (activeSection === section) {
+                      setActiveSection(null);
+                      setActiveVideo('/background.mp4');
+                    } else {
+                      setActiveSection(section);
+                      if (section === 'STUDIO') setActiveVideo('/bg1.mp4');
+                      if (section === 'APP') setActiveVideo('/bg2.mp4');
+                      if (section === 'LABEL') setActiveVideo('/bg3.mp4');
+                    }
+                  }}
                 >
                   {/* Panel border */}
                   <div className="absolute inset-0 border border-cyan-500/30 pointer-events-none" />
